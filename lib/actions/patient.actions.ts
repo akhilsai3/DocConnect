@@ -101,7 +101,12 @@ export const getPatient = async (userId: string) => {
       PATIENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
-
+ const patient = patients.documents[0];
+    
+    if (!patient) {
+      console.warn("No patient document found for userId:", userId);
+      return null; // or return {} or throw new Error("Not found")
+    }
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(
